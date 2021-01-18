@@ -4,6 +4,13 @@ package br.com.softbank.file.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.sftp.session.SftpSession;
 import org.springframework.stereotype.Service;
@@ -45,6 +52,51 @@ public class FileService {
 			if(session != null) {
 				session.close();
 			}			
+		}
+	}
+	
+	public void download(ResourceEnum resource,  HttpServletResponse response) throws Exception {
+		String nomeArquivo = "Modelo ".concat(resource.getDescricao().concat(".xlsx"));
+	
+		try (Workbook workbook = new XSSFWorkbook()) {
+			Sheet sheet = workbook.createSheet(nomeArquivo);
+			sheet.setDefaultColumnWidth(30);
+
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setFontName("Arial");
+			font.setBold(true);
+			style.setFont(font);
+
+			if(resource.equals(ResourceEnum.exames)) {
+				Row header = sheet.createRow(0);
+				header.createCell(0).setCellValue("Nome");
+				header.getCell(0).setCellStyle(style);
+				header.createCell(1).setCellValue("Tipo Id");
+				header.getCell(1).setCellStyle(style);
+					
+			} else {
+				Row header = sheet.createRow(0);
+				header.createCell(0).setCellValue("Nome");
+				header.getCell(0).setCellStyle(style);
+				header.createCell(1).setCellValue("Cidade");
+				header.getCell(1).setCellStyle(style);
+				header.createCell(2).setCellValue("Bairro");
+				header.getCell(2).setCellStyle(style);
+				header.createCell(3).setCellValue("Rua");
+				header.getCell(3).setCellStyle(style);
+				header.createCell(4).setCellValue("Número");
+				header.getCell(4).setCellStyle(style);
+			}
+			
+			response.setHeader("content-disposition", "attachment; filename=" + nomeArquivo);
+			response.setContentType("application/xlsx");
+
+			workbook.write(response.getOutputStream());
+
+			response.flushBuffer();
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
 		}
 	}
 }
