@@ -1,15 +1,20 @@
 package br.com.softbank.file.integration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SftpIntegration {
 	
-	private String host = "localhost";
-	private String port = "2222";
-	private String user = "admin";
-	private String passWord = "admin123";
+	@Value("sftp_host")
+	private String host;
+	@Value("sftp_port")
+	private String port;
+	@Value("sftp_user")
+	private String user;
+	@Value("sftp_pass_word")
+	private String passWord;
 
 	public DefaultSftpSessionFactory factory() {
 		DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
