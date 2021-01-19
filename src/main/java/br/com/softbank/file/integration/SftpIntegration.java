@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class SftpIntegration {
 	
-	@Value("sftp_host")
+	@Value("${sftp_host}")
 	private String host;
-	@Value("sftp_port")
+	@Value("${sftp_port}")
 	private String port;
-	@Value("sftp_user")
+	@Value("${sftp_user}")
 	private String user;
-	@Value("sftp_pass_word")
+	@Value("${sftp_pass_word}")
 	private String passWord;
 
 	public DefaultSftpSessionFactory factory() {
