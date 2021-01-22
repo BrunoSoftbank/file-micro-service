@@ -25,4 +25,20 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 		LOG.error(ex.getMessage());
 		return new ResponseEntity<>(response, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
+	
+	@ExceptionHandler(HeaderNotFoundException.class)
+	public ResponseEntity<ResponseDTO> headerNotFoundException(HeaderNotFoundException ex, HttpServletRequest request) {	
+		LOG.error(this.getClass().getSimpleName() + ".headerNotFoundException(HeaderNotFoundException ex, HttpServletRequest request) " + ex.getMessage());
+		ResponseDTO response = new ResponseDTO(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getMessage());
+		LOG.error(ex.getMessage());
+		return new ResponseEntity<>(response, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+	}
+	
+	@ExceptionHandler(InvalidFieldException.class)
+	public ResponseEntity<ResponseDTO> invalidFieldException(InvalidFieldException ex, HttpServletRequest request) {	
+		LOG.error(this.getClass().getSimpleName() + ".invalidFieldException(InvalidFieldException ex, HttpServletRequest request) " + ex.getMessage());
+		ResponseDTO response = new ResponseDTO(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getMessage());
+		LOG.error(ex.getMessage());
+		return new ResponseEntity<>(response, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+	}
 }

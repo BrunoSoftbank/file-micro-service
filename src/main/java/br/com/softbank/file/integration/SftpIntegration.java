@@ -1,5 +1,9 @@
 package br.com.softbank.file.integration;
 
+import java.io.InputStream;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.stereotype.Component;
@@ -15,14 +19,28 @@ public class SftpIntegration {
 	private String user;
 	@Value("${sftp_pass_word}")
 	private String passWord;
+	
+	private DefaultSftpSessionFactory factory ;
+	
+	@PostConstruct
+	public void init() {
+		factory = new DefaultSftpSessionFactory();
+	}
 
-	public DefaultSftpSessionFactory factory() {
-		DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
-		factory.setHost(host);
-		factory.setPort(Integer.valueOf(port));
-		factory.setUser(user);
-		factory.setPassword(passWord);
-		factory.setAllowUnknownKeys(true);		
+	private DefaultSftpSessionFactory factory() {
+		if(factory != null) {
+			factory = new DefaultSftpSessionFactory();
+			factory.setHost(host);
+			factory.setPort(Integer.valueOf(port));
+			factory.setUser(user);
+			factory.setPassword(passWord);
+			factory.setAllowUnknownKeys(true);	
+		}	
 		return factory;
+	}
+	
+	public void download(InputStream inputStream, String destination) throws Exception {
+		this.factory().getSession().write(inputStream, destination);
+		this.factory().getSession().close();
 	}
 }

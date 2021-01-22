@@ -2,8 +2,7 @@ package br.com.softbank.file.enuns;
 
 public enum ResourceEnum {
 
-	exames(1L, "Exames"),
-	laboratorios(2L, "Laboratórios");
+	laboratorios(1L, "Laboratórios");
 	
 	ResourceEnum(Long id, String descricao) {
 		this.id = id;

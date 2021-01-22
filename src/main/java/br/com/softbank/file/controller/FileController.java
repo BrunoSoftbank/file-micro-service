@@ -27,7 +27,7 @@ public class FileController {
 	
 	@PostMapping
 	@ApiOperation(value = "Upload do arquivo xlsx para o servidor sftp")
-	public ResponseEntity<Void> upload(@RequestHeader String  Authorization, @RequestParam ResourceEnum resource, MultipartFile file) {
+	public ResponseEntity<Void> upload(@RequestHeader String  Authorization, @RequestParam ResourceEnum resource, MultipartFile file) throws Exception {
 		fileService.upload(resource, file);
 		return ResponseEntity.noContent().build();
 	}
