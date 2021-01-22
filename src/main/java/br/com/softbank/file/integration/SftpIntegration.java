@@ -39,7 +39,7 @@ public class SftpIntegration {
 		return factory;
 	}
 	
-	public void download(InputStream inputStream, String destination) throws Exception {
+	public void upload(InputStream inputStream, String destination) throws Exception {
 		this.factory().getSession().write(inputStream, destination);
 		this.factory().getSession().close();
 	}

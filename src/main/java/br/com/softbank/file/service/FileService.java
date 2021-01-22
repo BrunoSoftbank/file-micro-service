@@ -32,7 +32,7 @@ public class FileService {
 		this.validarHeader(file.getInputStream());
 		this.validarCampos(file.getInputStream());
 		try {
-			sftpIntegration.download(file.getInputStream(), "upload/Laboratórios.xlsx");
+			sftpIntegration.upload(file.getInputStream(), "upload/Laboratórios.xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
